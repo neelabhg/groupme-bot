@@ -1,18 +1,9 @@
 var HTTPS = require('https');
-var cool = require('cool-ascii-faces');
 
 var botID = process.env.BOT_ID;
 
 function respond(request) {
-  var botRegex = /^\/cool guy$/;
-
   console.log(request);
-
-  if(request.text && botRegex.test(request.text)) {
-    postMessage(botID, cool());
-  } else {
-    console.log("don't care");
-  }
 }
 
 function postMessage(botID, text) {
