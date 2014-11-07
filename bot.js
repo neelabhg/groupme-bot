@@ -11,16 +11,18 @@ function respond(request) {
   var bot = bots[request.group_id],
       msg = request.text;
   if (!bot) {
-    console.log('New message received, but no bot for Group ID ' + request.group_id);
+    console.log('New message received, but no bot configured for Group ID ' + request.group_id);
   } else {
-    console.log('New message from %s in group %s: %s', request.name, bot.groupName, msg);
+    console.log('New message from %s in group \'%s\': %s', request.name, bot.groupName, msg);
     if (typeof msg === 'string' && msg.substring(0, 4) === 'bot ') {
       msg = msg.substring(4);
-      processCommand(msg, function (response) {
-        if (response) {
-          postMessage(bot.botID, response);
-        }
-      });
+      if (bot.groupLocalID !== '3') { // do not send anything to the group I assigned local id 3
+        processCommand(msg, function (response) {
+          if (response) {
+            postMessage(bot.botID, response);
+          }
+        });
+      }
     }
   }
 }
