@@ -9,8 +9,7 @@ config.bots.forEach(function (bot) {
 
 function respond(request) {
   var bot = bots[request.group_id],
-      msg = request.text,
-      response;
+      msg = request.text;
   if (!bot) {
     console.log('New message received, but no bot for Group ID ' + request.group_id);
   } else {
@@ -29,17 +28,17 @@ function respond(request) {
 function processCommand(message, cb) {
   var tokens = message.split(' '),
       command = tokens.shift();
-  console.log('command: %s, tokens: %s', command, tokens);
   switch (command) {
     case '':
       cb('');
       break;
     case 'help':
-      cb('Usage: bot <command> <arguments>\n' +
+      cb('Usage: bot <command> <arguments> [optional arguments]\n' +
         'Available commands:\n' +
         'help: Display this text\n' +
         'time: Get the current time\n' +
-        'weather <city>: Get the current weather for city\n');
+        'weather <city>: Get the current weather for city\n' +
+        'excuse [designer]: Get a random developer or designer excuse\n');
       break;
     case 'time':
       cb('The current time is ' + services.getCurrentDateTimeString());
@@ -56,6 +55,21 @@ function processCommand(message, cb) {
         });
       } else {
         cb('Please provide a city for weather.');
+      }
+      break;
+    case 'excuse':
+      if (tokens[0] === 'designer') {
+        services.getRandomDesignerExcuse(function (excuse) {
+          if (excuse) {
+            cb('Designer excuse: ' + excuse);
+          }
+        });
+      } else {
+        services.getRandomDeveloperExcuse(function (excuse) {
+          if (excuse) {
+            cb('Developer excuse: ' + excuse);
+          }
+        });
       }
       break;
     default:
