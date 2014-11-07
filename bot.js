@@ -1,5 +1,6 @@
 var HTTPS = require('https');
 var config = require('./config');
+var services = require('./services');
 
 var bots = {};
 config.bots.forEach(function (bot) {
@@ -16,23 +17,49 @@ function respond(request) {
     console.log('New message from %s in group %s: %s', request.name, bot.groupName, msg);
     if (typeof msg === 'string' && msg.substring(0, 4) === 'bot ') {
       msg = msg.substring(4);
-      response = processCommand(msg);
-      if (response) {
-        postMessage(bot.botID, response);
-      }
+      processCommand(msg, function (response) {
+        if (response) {
+          postMessage(bot.botID, response);
+        }
+      });
     }
   }
 }
 
-function processCommand(message) {
+function processCommand(message, cb) {
   var tokens = message.split(' '),
       command = tokens.shift();
   console.log('command: %s, tokens: %s', command, tokens);
   switch (command) {
+    case '':
+      cb('');
+      break;
     case 'help':
-      return '';
+      cb('Usage: bot <command> <arguments>\n' +
+        'Available commands:\n' +
+        'help: Display this text\n' +
+        'time: Get the current time\n' +
+        'weather <city>: Get the current weather for city\n');
+      break;
+    case 'time':
+      cb('The current time is ' + services.getCurrentDateTimeString());
+      break;
+    case 'weather':
+      var city = tokens[0];
+      if (city) {
+        services.getWeatherForCity(city, function (data) {
+          if (data.status == 'success') {
+            cb('The current temperature in ' + city + ' is ' + data.temp);
+          } else {
+            cb('Cannot get weather at this time');
+          }
+        });
+      } else {
+        cb('Please provide a city for weather.');
+      }
+      break;
     default:
-      return 'Command %s not supported. Type \'bot help\' for available commands.';
+      cb('Command \'' + command + '\' not supported. Type \'bot help\' for available commands.');
   }
 }
 
