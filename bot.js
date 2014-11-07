@@ -1,9 +1,39 @@
 var HTTPS = require('https');
+var config = require('./config');
 
-var botID = process.env.BOT_ID;
+var bots = {};
+config.bots.forEach(function (bot) {
+  bots[bot.groupID] = bot;
+});
 
 function respond(request) {
-  console.log(request);
+  var bot = bots[request.group_id],
+      msg = request.text,
+      response;
+  if (!bot) {
+    console.log('New message received, but no bot for Group ID ' + request.group_id);
+  } else {
+    console.log('New message from %s in group %s: %s', request.name, bot.groupName, msg);
+    if (typeof msg === 'string' && msg.substring(0, 4) === 'bot ') {
+      msg = msg.substring(4);
+      response = processCommand(msg);
+      if (response) {
+        postMessage(bot.botID, response);
+      }
+    }
+  }
+}
+
+function processCommand(message) {
+  var tokens = message.split(' '),
+      command = tokens.shift();
+  console.log('command: %s, tokens: %s', command, tokens);
+  switch (command) {
+    case 'help':
+      return '';
+    default:
+      return 'Command %s not supported. Type \'bot help\' for available commands.';
+  }
 }
 
 function postMessage(botID, text) {
@@ -40,3 +70,4 @@ function postMessage(botID, text) {
 }
 
 exports.respond = respond;
+exports.postMessage = postMessage;
