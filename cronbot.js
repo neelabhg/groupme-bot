@@ -33,3 +33,5 @@ if (Math.random() < 0.5) {
 } else {
   sendRandomDesignerExcuse();
 }
+
+process.exit();
