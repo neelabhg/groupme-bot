@@ -1,3 +1,6 @@
+# JetBrains Directory-based project format
+.idea/
+
 # Logs
 logs
 *.log
