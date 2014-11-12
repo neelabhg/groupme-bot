@@ -12,18 +12,18 @@ Configuring
 2. [Find your Bot ID](https://github.com/neelabhg/groupme-bot#find-your-bot-id) and save for later. Also save the group name and group ID.
 
 3. If you are using a version control system to manage this source code, make sure to ignore changes to `config.js`, which holds secret configuration and should not be publicly visible. If you are using Git, use the following command:  
-```
+```sh
 $ git update-index --assume-unchanged config.js
 ```
 
 4. Open `config.js` and edit the `config.bots` array. For every group you have a bot for, add the following to the array:
-```
+```js
 {
-    botID: 'xxxxxxxxxxx',
-    groupID: 'xxxxxxxx',
-    groupName: 'the-group-name',
-    groupLocalID: '1' // an identifier for this group used in this application only
-  }
+  botID: 'xxxxxxxxxxx',
+  groupID: 'xxxxxxxx',
+  groupName: 'the-group-name',
+  groupLocalID: '1' // an identifier for this group used in this application only
+}
 ```
 Give every bot a `groupLocalID`. This can be any identifier, which can be used to access the bot object using the `config.botsDict` dictionary. The advantage of this approach is that all the GroupMe specific configuration and secrects remain in the `config.js` file, and the source code only contains the `groupLocalID`, which is meaningless outside this application.
 
@@ -33,11 +33,11 @@ Running
 -------
 1. Install [node.js](http://nodejs.org/). Node's package manager ([npm](https://www.npmjs.org/)) comes bundled.
 2. Install dependencies and set up the project.  
-```
+```sh
 $ npm install
 ```
 3. Run the server. The default port used is 5000. If you want to use another port, set the `PORT` environment variable to the desired port number.
-```
+```sh
 $ node index.js
 ```
 
