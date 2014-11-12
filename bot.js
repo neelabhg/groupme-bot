@@ -1,82 +1,75 @@
 var HTTPS = require('https');
 var config = require('./config');
-var services = require('./services');
 
-var bots = {};
+var groupIdToBotMap = {};
 config.bots.forEach(function (bot) {
-  bots[bot.groupID] = bot;
+  groupIdToBotMap[bot.groupID] = bot;
+});
+
+var commands = [];
+var registerCommand = function (command, description, func) {
+  commands[command] = [description, func];
+};
+
+var normalizedPath = path.join(__dirname, "commands");
+require("fs").readdirSync(normalizedPath).forEach(function (file) {
+  if (path.extname(file) === '.js') {
+    require("./commands/" + file)(registerCommand)
+  }
 });
 
 function respond(request) {
-  var bot = bots[request.group_id],
+  var bot = groupIdToBotMap[request.group_id],
       msg = request.text;
   if (!bot) {
     console.log('New message received, but no bot configured for Group ID ' + request.group_id);
   } else {
-    console.log('New message from %s in group \'%s\': %s', request.name, bot.groupName, msg);
+    console.log('New message from %s in group \'%s\': %s', request.name, bot.groupLocalID, msg);
     if (typeof msg === 'string' && msg.substring(0, 4) === 'bot ') {
       msg = msg.substring(4);
-      if (bot.groupLocalID !== '3') { // do not send anything to the group I assigned local id 3
-        processCommand(msg, function (response) {
-          if (response) {
-            postMessage(bot.botID, response);
-          }
-        });
-      }
+      processCommand(bot.groupLocalID, msg, function (response) {
+        if (response !== null) {
+          postMessage(bot.botID, response);
+        }
+      });
     }
   }
 }
 
-function processCommand(message, cb) {
+function processCommand(groupLocalID, message, cb) {
   var tokens = message.split(' '),
-      command = tokens.shift();
-  switch (command) {
-    case '':
-      cb('');
-      break;
-    case 'help':
-      cb('Usage: bot <command> <arguments> [optional arguments]\n' +
-        'Available commands:\n' +
-        'help: Display this text\n' +
-        'time: Get the current time\n' +
-        'weather <city>: Get the current weather for city\n' +
-        'excuse [designer]: Get a random developer or designer excuse\n');
-      break;
-    case 'time':
-      cb('The current time is ' + services.getCurrentDateTimeString());
-      break;
-    case 'weather':
-      var city = tokens[0];
-      if (city) {
-        services.getWeatherForCity(city, function (data) {
-          if (data.status == 'success') {
-            cb('The current temperature in ' + city + ' is ' + data.temp);
-          } else {
-            cb('Cannot get weather at this time');
-          }
-        });
-      } else {
-        cb('Please provide a city for weather.');
-      }
-      break;
-    case 'excuse':
-      if (tokens[0] === 'designer') {
-        services.getRandomDesignerExcuse(function (excuse) {
-          if (excuse) {
-            cb('Designer excuse: ' + excuse);
-          }
-        });
-      } else {
-        services.getRandomDeveloperExcuse(function (excuse) {
-          if (excuse) {
-            cb('Developer excuse: ' + excuse);
-          }
-        });
-      }
-      break;
-    default:
-      cb('Command \'' + command + '\' not supported. Type \'bot help\' for available commands.');
+      commandString = tokens.shift();
+
+  if (groupLocalID === '3') {
+    // do not send anything to the group I assigned local id 3
+    cb(null);
+    return;
   }
+
+  if (!commandString) {
+    cb(null);
+    return;
+  }
+
+  if (commandString === 'help') {
+    var helpText = 'Usage: bot <command> <arguments> [optional arguments]\n' +
+      'Available commands:\nhelp: Display this text\n';
+    for (var key in commands) {
+      if (commands.hasOwnProperty(key)) {
+        helpText += commands[key][0] + '\n';
+      }
+    }
+    cb(helpText);
+    return;
+  }
+
+  var command = commands[commandString];
+  if (!command) {
+    cb('Command \'' + commandString + '\' not supported. Type \'bot help\' for available commands.');
+    return;
+  }
+
+  command[1](groupLocalID, tokens, cb);
 }
 
 function postMessage(botID, text) {
@@ -113,4 +106,5 @@ function postMessage(botID, text) {
 }
 
 exports.respond = respond;
+exports.processCommand = processCommand;
 exports.postMessage = postMessage;

@@ -29,4 +29,4 @@ utils.getHttp = function(options, onResult, onError) {
   req.end();
 };
 
-modules.exports = utils;
+module.exports = utils;
