@@ -30,7 +30,9 @@ which holds secret configuration and should not be publicly visible. If you are 
     botName: 'mybot'
   }
   ```
-  * Give every bot a `groupLocalID`. This can be any identifier, which can be used to access the bot object using the `config.botsDict` dictionary. The advantage of this approach is that all the GroupMe specific configuration and secrects remain in the `config.js` file, and the source code only contains the `groupLocalID`, which is meaningless outside this application.
+  * Give every bot a `groupLocalID`. This can be any identifier, which can be used to access the bot object using the `config.botsDict` dictionary.
+  The advantage of this approach is that all the GroupMe specific configuration and secrets remain in the `config.js` file,
+  and the source code only contains the `groupLocalID`, which is meaningless outside this application.
   * The `botName` is the name which the bot responds to. All commands to the bot in the group must start with the given `botName`.
   * You can optionally store other data along with the bot, such as the group name.
 
@@ -52,7 +54,25 @@ $ node index.js
 
 Adding your own commands
 ------------------------
-TODO
+Commands are automatically picked up from the `commands/` directory. To add your own command, create a JS module and place it in the directory.
+The module should export a single function which accepts as its parameter a command registration callback. This callback should be called with the
+command name, its description and the command function to register the command. The command function is called when the bot receives a message with
+the given command. The command function will be called with three parameters - the group's local ID, an array of words in the message following the
+command (used as command arguments), and a callback function, which should be called with the response. A template for a command module is:
+```js
+module.exports = function (registerCallback) {
+  registerCallback(
+    'command',
+    'description',
+    function (groupLocalID, msgTokens, callback) {
+      var response = '...';
+      callback(response);
+    }
+  );
+};
+
+```
+Look at existing modules in the `commands/` directory for examples.
 
 Licence
 -------
