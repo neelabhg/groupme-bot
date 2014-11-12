@@ -8,6 +8,10 @@ A lot of the commands are setup for my groups, but it is easy to extend this bot
 Feel free to [fork](https://help.github.com/articles/fork-a-repo/) this repository.
 Consider [contributing](https://guides.github.com/activities/contributing-to-open-source/#contributing) your changes/additional commands.
 
+I recommend taking a look at [Hubot](https://hubot.github.com/) - it is written by GitHub, Inc., supports multiple
+chat-backends, is very extensible, and has a huge community contributing lots of useful scripts. It does not officially support
+GroupMe, but [there is an adapter available](https://github.com/AdamEdgett/hubot-groupme).
+
 Configuring
 -----------
 1. [Create a GroupMe Bot](https://github.com/groupme/bot-tutorial-nodejs#next-create-a-groupme-bot).
