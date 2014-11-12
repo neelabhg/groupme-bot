@@ -13,6 +13,8 @@ bot.registerCommand = function (command, description, func) {
   commands[command] = [description, func];
 };
 
+// http://stackoverflow.com/a/5365577 (node.js require all files in a folder?)
+// And http://stackoverflow.com/questions/5364928/node-js-require-all-files-in-a-folder#comment25520686_5365577
 var normalizedPath = path.join(__dirname, "commands");
 require("fs").readdirSync(normalizedPath).forEach(function (file) {
   if (path.extname(file) === '.js') {
