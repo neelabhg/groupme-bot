@@ -23,11 +23,11 @@ which holds secret configuration and should not be publicly visible. If you are 
 4. Open `config.js` and edit the `config.bots` array. For every group you have a bot for, add the following to the array:  
   ```js
   {
-    botID: 'xxxxxxxxxxx',
+    botID: 'xxxxxxxxxx',
     groupID: 'xxxxxxxx',
-    groupName: 'the-group-name', // optional
-    groupLocalID: '1' // an identifier for this group used in this application only,
-    botName: 'mybot'
+    groupLocalID: '1', // an identifier for this group used in this application only
+    botName: 'mybot',
+    groupName: 'the-group-name' // optional
   }
   ```
   * Give every bot a `groupLocalID`. This can be any identifier, which can be used to access the bot object using the `config.botsDict` dictionary.

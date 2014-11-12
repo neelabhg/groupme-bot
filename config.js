@@ -4,8 +4,9 @@ config.bots = [
   {
     botID: '',
     groupID: '',
-    groupName: '',
-    groupLocalID: '' // an identifier for this group used in this application only
+    groupLocalID: '', // an identifier for this group used in this application only
+    botName: 'bot',
+    groupName: '' // optional
   }
 ];
 
