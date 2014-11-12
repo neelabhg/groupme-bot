@@ -3,15 +3,10 @@ var config = require('./config');
 var services = require('./services');
 var bot = require('./bot');
 
-var bots = {};
-config.bots.forEach(function (bot) {
-  bots[bot.groupLocalID] = bot;
-});
-
 var send = function (msg) {
   if (msg) {
-    bot.postMessage(bots['1'].botID, msg);
-    //bot.postMessage(bots['2'].botID, msg);
+    bot.postMessage(config.botsDict['1'].botID, msg);
+    //bot.postMessage(config.botsDict['2'].botID, msg);
   }
   process.exit();
 };
