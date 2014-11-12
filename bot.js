@@ -1,6 +1,7 @@
 var HTTPS = require('https');
 var path = require('path');
 var config = require('./config');
+var bot = {};
 
 var groupIdToBotMap = {};
 config.bots.forEach(function (bot) {
@@ -8,18 +9,18 @@ config.bots.forEach(function (bot) {
 });
 
 var commands = [];
-var registerCommand = function (command, description, func) {
+bot.registerCommand = function (command, description, func) {
   commands[command] = [description, func];
 };
 
 var normalizedPath = path.join(__dirname, "commands");
 require("fs").readdirSync(normalizedPath).forEach(function (file) {
   if (path.extname(file) === '.js') {
-    require("./commands/" + file)(registerCommand)
+    require("./commands/" + file)(bot.registerCommand)
   }
 });
 
-function respond(request) {
+bot.respond = function (request) {
   var bot = groupIdToBotMap[request.group_id],
       msg = request.text;
   if (!bot) {
@@ -35,9 +36,9 @@ function respond(request) {
       });
     }
   }
-}
+};
 
-function processCommand(groupLocalID, message, cb) {
+bot.processCommand = function (groupLocalID, message, cb) {
   var tokens = message.split(' '),
       commandString = tokens.shift();
 
@@ -71,9 +72,9 @@ function processCommand(groupLocalID, message, cb) {
   }
 
   command[1](groupLocalID, tokens, cb);
-}
+};
 
-function postMessage(botID, text) {
+bot.postMessage = function (botID, text) {
   var options, body, botReq;
 
   options = {
@@ -104,8 +105,6 @@ function postMessage(botID, text) {
     console.log('timeout posting message '  + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
-}
+};
 
-exports.respond = respond;
-exports.processCommand = processCommand;
-exports.postMessage = postMessage;
+module.exports = bot;
