@@ -24,18 +24,24 @@ require("fs").readdirSync(normalizedPath).forEach(function (file) {
 
 bot.respond = function (request) {
   var bot = groupIdToBotMap[request.group_id],
-      msg = request.text;
+      msg = request.text,
+      botName = bot.botName;
   if (!bot) {
     console.log('New message received, but no bot configured for Group ID ' + request.group_id);
   } else {
     console.log('New message from %s in group \'%s\': %s', request.name, bot.groupLocalID, msg);
-    if (typeof msg === 'string' && msg.substring(0, 4) === 'bot ') {
-      msg = msg.substring(4);
-      processCommand(bot.groupLocalID, msg, function (response) {
-        if (response !== null) {
-          postMessage(bot.botID, response);
-        }
-      });
+    if (typeof msg === 'string') {
+      if (msg === botName) {
+        msg = botName + ' help';
+      }
+      if (msg.substring(0, botName.length + 1) === botName + ' ') {
+        msg = msg.substring(botName.length + 1);
+        processCommand(bot.groupLocalID, msg, function (response) {
+          if (response !== null) {
+            postMessage(bot.botID, response);
+          }
+        });
+      }
     }
   }
 };
