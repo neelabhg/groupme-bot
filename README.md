@@ -17,24 +17,23 @@ For every group you want to interact with, you need to register a new GroupMe bo
 
 3. If you are using a version control system to manage this source code, make sure to ignore changes to `config.js`,
 which holds secret configuration and should not be publicly visible. If you are using Git, use the following command:  
-```sh
-$ git update-index --assume-unchanged config.js
-```
+  ```sh
+  $ git update-index --assume-unchanged config.js
+  ```
 4. Open `config.js` and edit the `config.bots` array. For every group you have a bot for, add the following to the array:  
-```js
-{
-  botID: 'xxxxxxxxxxx',
-  groupID: 'xxxxxxxx',
-  groupName: 'the-group-name', // optional
-  groupLocalID: '1' // an identifier for this group used in this application only,
-  botName: 'mybot'
-}
-```
-Give every bot a `groupLocalID`. This can be any identifier, which can be used to access the bot object using the `config.botsDict` dictionary.
-The advantage of this approach is that all the GroupMe specific configuration and secrects remain in the `config.js` file,
-and the source code only contains the `groupLocalID`, which is meaningless outside this application.
-The `botName` is the name which the bot responds to. All commands to the bot in the group must start with the given `botName`.
-You can optionally store other data along with the bot, such as the group name.
+  ```js
+  {
+    botID: 'xxxxxxxxxxx',
+    groupID: 'xxxxxxxx',
+    groupName: 'the-group-name', // optional
+    groupLocalID: '1' // an identifier for this group used in this application only,
+    botName: 'mybot'
+  }
+  ```
+  * Give every bot a `groupLocalID`. This can be any identifier, which can be used to access the bot object using the `config.botsDict` dictionary. The advantage of this approach is that all the GroupMe specific configuration and secrects remain in the `config.js` file, and the source code only contains the `groupLocalID`, which is meaningless outside this application.
+  * The `botName` is the name which the bot responds to. All commands to the bot in the group must start with the given `botName`.
+  * You can optionally store other data along with the bot, such as the group name.
+
 5. Add any other configuration/secret API keys to `config.js`, and access them in your scripts.
 For example, one of the commands is for the bot to tell the current weather.
 The weather is fetched from the Yahoo Weather API, and its secret App ID is stored in `config.js` as `config.yahooWeatherAppId`.
