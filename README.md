@@ -64,8 +64,8 @@ the given command. The command function will be called with four parameters - th
 words in the message following the command (used as command arguments), and a callback function, which should be called with the response.
 A template for a command module is:
 ```js
-module.exports = function (registerCallback) {
-  registerCallback(
+module.exports = function (registerCommand) {
+  registerCommand(
     'command',
     'description',
     function (groupLocalID, userDisplayName, msgTokens, callback) {

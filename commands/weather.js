@@ -15,8 +15,8 @@ var getWeatherForCity = function (city, callback) {
   });
 };
 
-module.exports = function (registerCallback) {
-  registerCallback(
+module.exports = function (registerCommand) {
+  registerCommand(
     'weather',
     'weather <city>: Get the current weather for city',
     function (groupLocalID, userDisplayName, msgTokens, callback) {

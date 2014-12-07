@@ -66,8 +66,8 @@ var getRandomDesignerExcuse = (function () {
   };
 })();
 
-module.exports = function (registerCallback) {
-  registerCallback(
+module.exports = function (registerCommand) {
+  registerCommand(
     'excuse',
     'excuse [designer]: Get a random developer or designer excuse',
     function (groupLocalID, userDisplayName, msgTokens, callback) {
