@@ -15,13 +15,13 @@ GroupMe, but [there is an adapter available](https://github.com/AdamEdgett/hubot
 Configuring
 -----------
 1. [Create a GroupMe Bot](https://github.com/groupme/bot-tutorial-nodejs#next-create-a-groupme-bot).
-   For every group you want to interact with, you need to register a new GroupMe bot. For the callback URL, pass the URL of the server where this application is hosted.
+  For every group you want to interact with, you need to register a new GroupMe bot. For the callback URL, pass the URL of the server where this application is hosted.
 
 2. [Find your Bot ID](https://github.com/neelabhg/groupme-bot#find-your-bot-id) and save for later. Also save the group ID and optionally the group name.
 
 3. Copy `config_template.js` to `config.js`. Make sure to keep `config.js` private/hidden, as it will hold secret data and should not be publicly visible.
-   If you are using Git, it is already added to `.gitignore`. DO NOT ADD CONFIGURATION DATA TO `config_template.js`, which is meant to be in source control.
-   It should only be used to create `config.js`.
+  If you are using Git, it is already added to `.gitignore`. DO NOT ADD CONFIGURATION DATA TO `config_template.js`, which is meant to be in source control.
+  It should only be used to create `config.js`.
 
 4. Open `config.js` and edit the `config.bots` array. For every group you have a bot for, add the following to the array:  
   ```js
@@ -40,20 +40,20 @@ Configuring
   * You can optionally store other data along with the bot, such as the group name.
 
 5. Add any other configuration/secret API keys to `config.js`, and access them in your scripts.
-   For example, one of the commands is for the bot to tell the current weather.
-   The weather is fetched from the Yahoo Weather API, and its secret App ID is stored in `config.js` as `config.yahooWeatherAppId`.
+  For example, one of the commands is for the bot to tell the current weather.
+  The weather is fetched from the Yahoo Weather API, and its secret App ID is stored in `config.js` as `config.yahooWeatherAppId`.
 
 Running
 -------
 1. Install [node.js](http://nodejs.org/). Node's package manager ([npm](https://www.npmjs.org/)) comes bundled.
 2. Install dependencies and set up the project.  
-   ```sh
-   $ npm install
-   ```
+  ```sh
+  $ npm install
+  ```
 3. Run the server. The default port used is 5000. If you want to use another port, set the `PORT` environment variable to the desired port number.
-   ```sh
-   $ node index.js
-   ```
+  ```sh
+  $ node index.js
+  ```
 
 Adding your own commands
 ------------------------
