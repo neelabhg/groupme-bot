@@ -36,7 +36,7 @@ bot.respond = function (request) {
       }
       if (msg.substring(0, botName.length + 1) === botName + ' ') {
         msg = msg.substring(botName.length + 1);
-        this.processCommand(botConfig.groupLocalID, msg, function (response) {
+        this.processCommand(botConfig.groupLocalID, request.name, msg, function (response) {
           if (response !== null) {
             this.postMessage(botConfig.botID, response);
           }
@@ -46,7 +46,7 @@ bot.respond = function (request) {
   }
 };
 
-bot.processCommand = function (groupLocalID, message, cb) {
+bot.processCommand = function (groupLocalID, userDisplayName, message, cb) {
   var tokens = message.split(' '),
       commandString = tokens.shift();
 
@@ -79,7 +79,7 @@ bot.processCommand = function (groupLocalID, message, cb) {
     return;
   }
 
-  command[1](groupLocalID, tokens, cb);
+  command[1](groupLocalID, userDisplayName, tokens, cb);
 };
 
 bot.postMessage = function (botID, text) {

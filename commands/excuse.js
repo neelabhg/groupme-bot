@@ -70,7 +70,7 @@ module.exports = function (registerCallback) {
   registerCallback(
     'excuse',
     'excuse [designer]: Get a random developer or designer excuse',
-    function (groupLocalID, msgTokens, callback) {
+    function (groupLocalID, userDisplayName, msgTokens, callback) {
       if (msgTokens[0] === 'designer') {
         getRandomDesignerExcuse(function (excuse) {
           if (excuse) {

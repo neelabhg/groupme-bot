@@ -19,7 +19,7 @@ module.exports = function (registerCallback) {
   registerCallback(
     'weather',
     'weather <city>: Get the current weather for city',
-    function (groupLocalID, msgTokens, callback) {
+    function (groupLocalID, userDisplayName, msgTokens, callback) {
       var city = msgTokens[0];
       if (city) {
         getWeatherForCity(city, function (data) {

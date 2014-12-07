@@ -60,20 +60,20 @@ Adding your own commands
 Commands are automatically picked up from the `commands/` directory. To add your own command, create a JS module and place it in the directory.
 The module should export a single function which accepts as its parameter a command registration callback. This callback should be called with the
 command name, its description and the command function to register the command. The command function is called when the bot receives a message with
-the given command. The command function will be called with three parameters - the group's local ID, an array of words in the message following the
-command (used as command arguments), and a callback function, which should be called with the response. A template for a command module is:
+the given command. The command function will be called with four parameters - the group's local ID, the sending user's display name, an array of
+words in the message following the command (used as command arguments), and a callback function, which should be called with the response.
+A template for a command module is:
 ```js
 module.exports = function (registerCallback) {
   registerCallback(
     'command',
     'description',
-    function (groupLocalID, msgTokens, callback) {
+    function (groupLocalID, userDisplayName, msgTokens, callback) {
       var response = '...';
       callback(response);
     }
   );
 };
-
 ```
 Look at existing modules in the `commands/` directory for examples.
 
