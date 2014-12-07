@@ -2,11 +2,25 @@ var config = {};
 
 config.bots = [
   {
-    botID: '',
-    groupID: '',
-    groupLocalID: '', // an identifier for this group used in this application only
+    botID: '***REMOVED***',
+    groupID: '***REMOVED***',
+    groupLocalID: '1',
     botName: 'bot',
-    groupName: '' // optional
+    groupName: '***REMOVED***'
+  },
+  {
+    botID: '***REMOVED***',
+    groupID: '***REMOVED***',
+    groupLocalID: '2',
+    botName: 'bot',
+    groupName: '***REMOVED***'
+  },
+  {
+    botID: '***REMOVED***',
+    groupID: '***REMOVED***',
+    groupLocalID: '3',
+    botName: 'bot',
+    groupName: '***REMOVED***'
   }
 ];
 
