@@ -47,13 +47,13 @@ Running
 -------
 1. Install [node.js](http://nodejs.org/). Node's package manager ([npm](https://www.npmjs.org/)) comes bundled.
 2. Install dependencies and set up the project.  
-  ```sh
-  $ npm install
-  ```
-3. Run the server. The default port used is 5000. If you want to use another port, set the `PORT` environment variable to the desired port number.
-  ```sh
-  $ node index.js
-  ```
+```sh
+$ npm install
+```
+3. Run the server. The default port used is 5000. If you want to use another port, set the `PORT` environment variable to the desired port number.  
+```sh
+$ node index.js
+```
 
 Adding your own commands
 ------------------------
