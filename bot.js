@@ -23,12 +23,16 @@ require("fs").readdirSync(normalizedPath).forEach(function (file) {
 });
 
 bot.respond = function (request) {
-  var botConfig = groupIdToBotMap[request.group_id],
-      msg = request.text,
-      botName = botConfig.botName;
+  var botConfig, msg, botName;
+  if (!request) {
+    return;
+  }
+  botConfig = groupIdToBotMap[request.group_id];
   if (!botConfig) {
     console.log('New message received, but no bot configured for Group ID ' + request.group_id);
   } else {
+    botName = botConfig.botName;
+    msg = request.text;
     console.log('New message from %s in group \'%s\': %s', request.name, botConfig.groupLocalID, msg);
     if (typeof msg === 'string') {
       if (msg === botName) {
@@ -40,7 +44,7 @@ bot.respond = function (request) {
           if (response !== null) {
             this.postMessage(botConfig.botID, response);
           }
-        });
+        }.bind(this));
       }
     }
   }
