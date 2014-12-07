@@ -1,21 +1,36 @@
-var http, director, bot, router, server, port;
+var http, director, path, router, server, port;
 
 http        = require('http');
 director    = require('director');
-bot         = require('./bot.js');
+path        = require('path');
 
 router = new director.http.Router({
   '/' : {
     get: function () {
       this.res.writeHead(200);
       this.res.end("I'm a bot. https://github.com/neelabhg/groupme-bot");
-    },
-    post: function () {
-      var request = JSON.parse(this.req.chunks[0]);
-      this.res.writeHead(200);
-      bot.respond(request);
-      this.res.end();
     }
+  }
+});
+
+var registerRoute = function (httpVerb, route, handler) {
+  if (['get', 'post'].indexOf(httpVerb) === -1) {
+    console.log('registerRoute: Incorrect router method \'%s\' for route \'%s\'', httpVerb, route);
+    return;
+  }
+  router[httpVerb](route, function () {
+    this.res.writeHead(200);
+    handler(this.req.chunks[0]);
+    this.res.end();
+  });
+};
+
+// http://stackoverflow.com/a/5365577 (node.js require all files in a folder?)
+// And http://stackoverflow.com/questions/5364928/node-js-require-all-files-in-a-folder#comment25520686_5365577
+var normalizedPath = path.join(__dirname, "servicehooks");
+require("fs").readdirSync(normalizedPath).forEach(function (file) {
+  if (path.extname(file) === '.js') {
+    require("./servicehooks/" + file)(registerRoute);
   }
 });
 
