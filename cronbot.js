@@ -3,7 +3,7 @@ var config = require('./config');
 var bot = require('./bot');
 
 var send = function (groupLocalID, msg) {
-  bot.processCommand(groupLocalID, msg, function (response) {
+  bot.processCommand(groupLocalID, '', msg, function (response) {
     if (response) {
       bot.postMessage(config.botsDict[groupLocalID].botID, 'Today\'s random ' + response);
     }

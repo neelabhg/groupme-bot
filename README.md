@@ -62,6 +62,7 @@ The module should export a single function which accepts as its parameter a comm
 command name, its description and the command function to register the command. The command function is called when the bot receives a message with
 the given command. The command function will be called with four parameters - the group's local ID, the sending user's display name, an array of
 words in the message following the command (used as command arguments), and a callback function, which should be called with the response.
+The user's display name may be empty - such as when a command is triggered as a scheduled message, not from a message sent by a user.
 A template for a command module is:
 ```js
 module.exports = function (registerCommand) {
