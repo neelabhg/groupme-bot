@@ -1,5 +1,13 @@
 var http, director, path, router, server, port;
 
+// http://stackoverflow.com/a/15303236/2193410 (Node.js - check if module is installed without actually requiring it)
+try {
+  require.resolve('./config');
+} catch (e) {
+  console.error('Configuration file config.js not found.');
+  process.exit(e.code);
+}
+
 http        = require('http');
 director    = require('director');
 path        = require('path');
