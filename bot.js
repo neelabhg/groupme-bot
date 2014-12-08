@@ -18,7 +18,7 @@ bot.registerCommand = function (command, description, func) {
 var normalizedPath = path.join(__dirname, "commands");
 require("fs").readdirSync(normalizedPath).forEach(function (file) {
   if (path.extname(file) === '.js') {
-    require("./commands/" + file)(bot.registerCommand)
+    require("./commands/" + file)(bot.registerCommand);
   }
 });
 
