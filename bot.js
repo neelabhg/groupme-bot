@@ -54,12 +54,6 @@ bot.processCommand = function (groupLocalID, userDisplayName, message, cb) {
   var tokens = message.split(' '),
       commandString = tokens.shift();
 
-  if (groupLocalID === '3') {
-    // do not send anything to the group I assigned local id 3
-    cb(null);
-    return;
-  }
-
   if (!commandString) {
     cb(null);
     return;
