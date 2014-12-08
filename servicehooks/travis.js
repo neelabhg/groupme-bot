@@ -1,15 +1,26 @@
 // http://docs.travis-ci.com/user/notifications/#Webhook-notification
 
-var bot = require('../bot.js');
+var bot = require('../bot');
+var config = require('../config');
+var crypto = require('crypto');
+
+var isValidRequest = function (headers) {
+  var digest = crypto.createHash('sha256').update(headers['travis-repo-slug'] + config.travisUserToken).digest('hex');
+  return digest === headers['authorization'];
+};
 
 module.exports = function (registerRoute) {
   registerRoute('post', '/travisci', function (headers, requestBody) {
     var payload;
-    console.log('================== Travis CI request headers:', headers);
-    console.log('================== Travis CI request body:', requestBody);
     if (!(typeof requestBody === 'object' && requestBody)) {
       return;
     }
+
+    if (!isValidRequest(headers)) {
+      console.log('Invalid payload request for repository', headers['travis-repo-slug']);
+      return;
+    }
+
     try {
       payload = JSON.parse(requestBody.payload);
     } catch (e) {
@@ -20,6 +31,7 @@ module.exports = function (registerRoute) {
     if (!payload) {
       return;
     }
+
     console.log(payload);
   });
 };

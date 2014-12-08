@@ -1,4 +1,4 @@
-var bot = require('../bot.js');
+var bot = require('../bot');
 
 module.exports = function (registerRoute) {
   registerRoute('post', '/groupme', function (headers, requestBody) {

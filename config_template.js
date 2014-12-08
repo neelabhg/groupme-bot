@@ -12,6 +12,9 @@ config.bots = [
 
 config.yahooWeatherAppId = '';
 
+// Travis CI user token
+config.travisUserToken = 'xxxxxxxxxxxxxx';
+
 // DO NOT MODIFY ANYTHING BELOW THIS LINE
 // Generate a dictionary of groupLocalID's and their corresponding bots
 var botsDict = {};
