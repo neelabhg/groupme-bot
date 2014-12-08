@@ -20,7 +20,7 @@ var registerRoute = function (httpVerb, route, handler) {
   }
   router[httpVerb](route, function () {
     this.res.writeHead(200);
-    handler(this.req.chunks[0]);
+    handler(this.req.headers, this.req.chunks[0]);
     this.res.end();
   });
 };

@@ -1,7 +1,7 @@
 var bot = require('../bot.js');
 
 module.exports = function (registerRoute) {
-  registerRoute('post', '/groupme', function (requestData) {
+  registerRoute('post', '/groupme', function (headers, requestData) {
     var request;
     try {
       request = JSON.parse(requestData);
