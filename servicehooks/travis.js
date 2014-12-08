@@ -1,16 +1,15 @@
 // http://docs.travis-ci.com/user/notifications/#Webhook-notification
 
-var querystring = require('querystring');
 var bot = require('../bot.js');
 
 module.exports = function (registerRoute) {
-  registerRoute('post', '/travisci', function (headers, requestData) {
-    console.log('================== Travis CI request headers:', headers);
-    console.log('================== Travis CI request data:', requestData);
-
-    // excellent article: http://blog.frankgrimm.net/2010/11/howto-access-http-message-body-post-data-in-node-js/
-    var requestBody = querystring.parse(requestData);
+  registerRoute('post', '/travisci', function (headers, requestBody) {
     var payload;
+    console.log('================== Travis CI request headers:', headers);
+    console.log('================== Travis CI request body:', requestBody);
+    if (!(typeof requestBody === 'object' && requestBody)) {
+      return;
+    }
     try {
       payload = JSON.parse(requestBody.payload);
     } catch (e) {

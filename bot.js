@@ -23,13 +23,17 @@ require("fs").readdirSync(normalizedPath).forEach(function (file) {
 });
 
 bot.respond = function (request) {
-  var botConfig, msg, botName;
-  if (!request) {
+  var botConfig, msg, botName, groupID;
+  if (!(typeof request === 'object' && request)) {
     return;
   }
-  botConfig = groupIdToBotMap[request.group_id];
-  if (!botConfig) {
-    console.log('New message received, but no bot configured for Group ID ' + request.group_id);
+  groupID = request.group_id;
+  if (!(typeof groupID === 'string' && groupID)) {
+    console.log('Invalid bot request:', request);
+  }
+  botConfig = groupIdToBotMap[groupID];
+  if (!(typeof botConfig === 'object' && botConfig)) {
+    console.log('New message received, but no bot configured for Group ID ' + groupID);
   } else {
     botName = botConfig.botName;
     msg = request.text;
