@@ -16,7 +16,7 @@ router = new director.http.Router({
   '/' : {
     get: function () {
       this.res.writeHead(200);
-      this.res.end("I'm a bot. https://github.com/neelabhg/groupme-bot");
+      this.res.end('<p>I\'m a bot. <a href="https://github.com/neelabhg/groupme-bot">https://github.com/neelabhg/groupme-bot</a></p>');
     }
   }
 });
