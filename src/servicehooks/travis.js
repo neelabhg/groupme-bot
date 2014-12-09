@@ -5,7 +5,7 @@ var config = require('../config');
 var crypto = require('crypto');
 var util = require('util');
 
-var isValidRequest = function (headers) {
+var isAuthorizedRequest = function (headers) {
   var digest = crypto.createHash('sha256').update(headers['travis-repo-slug'] + config.travisUserToken).digest('hex');
   return digest === headers['authorization'];
 };
@@ -25,11 +25,12 @@ module.exports = function (registerRoute) {
   registerRoute('post', '/travisci', function (headers, requestBody) {
     var payload;
     if (!(typeof headers === 'object' && headers && typeof requestBody === 'object' && requestBody)) {
+      console.log('Invalid POST request for route /travisci');
       return;
     }
 
-    if (!isValidRequest(headers)) {
-      console.log('Invalid payload request for repository', headers['travis-repo-slug']);
+    if (!isAuthorizedRequest(headers)) {
+      console.log('Travis CI hook: unauthorized payload request for repository', headers['travis-repo-slug']);
       return;
     }
 
