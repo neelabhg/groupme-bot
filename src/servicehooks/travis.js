@@ -13,9 +13,9 @@ var isValidRequest = function (headers) {
 var getChatMessageText = function (payload) {
   var commit_details;
   if (payload.type === 'pull_request') {
-    commit_details = util.format('pull-request #%d : %s', payload.pull_request_number, payload.author_name);
+    commit_details = util.format('pull-request #%d by %s', payload.pull_request_number, payload.author_name);
   } else {
-    commit_details = util.format('%s - %s : %s', payload.branch, payload.commit, payload.author_name);
+    commit_details = util.format('commit to %s by %s', payload.branch, payload.author_name);
   }
   return util.format('Travis CI - %s - build #%d (%s): %s.\nBuild url: %s',
     payload.repository.name, payload.number, commit_details, payload.status_message, payload.build_url);
