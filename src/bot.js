@@ -3,13 +3,14 @@ var path = require('path');
 var config = require('./config');
 var bot = {};
 
-var groupIdToBotMap = {};
+var groupIdToBotMap = {}, groupLocalIdToBotMap = {};
 config.bots.forEach(function (bot) {
   groupIdToBotMap[bot.groupID] = bot;
+  groupLocalIdToBotMap[bot.groupLocalID] = bot;
 });
 
 var commands = [];
-bot.registerCommand = function (command, description, func) {
+var registerCommand = function (command, description, func) {
   commands[command] = [description, func];
 };
 
@@ -18,7 +19,7 @@ bot.registerCommand = function (command, description, func) {
 var normalizedPath = path.join(__dirname, "commands");
 require("fs").readdirSync(normalizedPath).forEach(function (file) {
   if (path.extname(file) === '.js') {
-    require("./commands/" + file)(bot.registerCommand);
+    require("./commands/" + file)(registerCommand);
   }
 });
 
@@ -46,7 +47,7 @@ bot.respond = function (request) {
         msg = msg.substring(botName.length + 1);
         this.processCommand(botConfig.groupLocalID, request.name, msg, function (response) {
           if (response !== null) {
-            this.postMessage(botConfig.botID, response);
+            this.postMessageWithBotID(botConfig.botID, response);
           }
         }.bind(this));
       }
@@ -84,7 +85,12 @@ bot.processCommand = function (groupLocalID, userDisplayName, message, cb) {
   command[1](groupLocalID, userDisplayName, tokens, cb);
 };
 
-bot.postMessage = function (botID, text) {
+bot.postMessageWithGroupLocalID = function (groupLocalID, text) {
+  var botID = (groupLocalIdToBotMap[groupLocalID] || {}).botID;
+  this.postMessageWithBotID(botID, text);
+};
+
+bot.postMessageWithBotID = function (botID, text) {
   var options, body, botReq;
 
   options = {
@@ -100,12 +106,12 @@ bot.postMessage = function (botID, text) {
 
   console.log('sending ' + text + ' to ' + botID);
 
-  botReq = HTTPS.request(options, function(res) {
-      if(res.statusCode == 202) {
-        //neat
-      } else {
-        console.log('rejecting bad status code ' + res.statusCode);
-      }
+  botReq = HTTPS.request(options, function (res) {
+    if (res.statusCode === 202) {
+      //neat
+    } else {
+      console.log('rejecting bad status code ' + res.statusCode);
+    }
   });
 
   botReq.on('error', function(err) {

@@ -12,7 +12,7 @@ var isValidRequest = function (headers) {
 module.exports = function (registerRoute) {
   registerRoute('post', '/travisci', function (headers, requestBody) {
     var payload;
-    if (!(typeof requestBody === 'object' && requestBody)) {
+    if (!(typeof headers === 'object' && headers && typeof requestBody === 'object' && requestBody)) {
       return;
     }
 

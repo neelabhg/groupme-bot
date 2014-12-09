@@ -33,7 +33,7 @@ Configuring
     groupName: 'the-group-name' // optional
   }
   ```
-  * Give every bot a `groupLocalID`. This can be any identifier, which can be used to access the bot object using the `config.botsDict` dictionary.
+  * Give every bot a `groupLocalID`. This can be any identifier, which can later be used to send messages to the group.
   The advantage of this approach is that all the GroupMe specific configuration and secrets remain in the `config.js` file,
   and the source code only contains the `groupLocalID`, which is meaningless outside this application.
   * The `botName` is the name which the bot responds to. All commands to the bot in the group must start with the given `botName`.
