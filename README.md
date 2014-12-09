@@ -17,7 +17,7 @@ Configuring
 1. [Create a GroupMe Bot](https://github.com/groupme/bot-tutorial-nodejs#next-create-a-groupme-bot).
   For every group you want to interact with, you need to register a new GroupMe bot. For the callback URL, pass the URL of the server where this application is hosted.
 
-2. [Find your Bot ID](https://github.com/neelabhg/groupme-bot#find-your-bot-id) and save for later. Also save the group ID and optionally the group name.
+2. [Find your Bot ID](https://github.com/groupme/bot-tutorial-nodejs#find-your-bot-id) and save for later. Also save the group ID and optionally the group name.
 
 3. Copy `config_template.js` to `config.js`. Make sure to keep `config.js` private/hidden, as it will hold secret data and should not be publicly visible.
   If you are using Git, it is already added to `.gitignore`. DO NOT ADD CONFIGURATION DATA TO `config_template.js`, which is meant to be in source control.
