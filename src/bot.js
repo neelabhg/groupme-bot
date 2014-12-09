@@ -42,11 +42,12 @@ bot.respond = function (request) {
     return;
   }
 
-  botName = botConfig.botName;
+  botName = botConfig.botName.toLowerCase();
   msg = request.text;
   console.log('New message from %s in group \'%s\': %s', request.name, botConfig.groupLocalID, msg);
 
   if (typeof msg === 'string') {
+    msg = msg.toLowerCase();
     if (msg === botName) {
       msg = botName + ' help';
     }

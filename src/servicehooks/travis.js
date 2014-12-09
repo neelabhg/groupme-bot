@@ -44,6 +44,6 @@ module.exports = function (registerRoute) {
       return;
     }
 
-    bot.postMessageWithGroupLocalID('1', getChatMessageText(payload));
+    bot.postMessageWithGroupLocalID('2', getChatMessageText(payload));
   });
 };
