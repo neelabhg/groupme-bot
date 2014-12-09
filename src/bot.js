@@ -28,29 +28,34 @@ bot.respond = function (request) {
   if (!(typeof request === 'object' && request)) {
     return;
   }
+
   groupID = request.group_id;
   if (!(typeof groupID === 'string' && groupID)) {
     console.log('Invalid bot request:', request);
+    return;
   }
+
   botConfig = groupIdToBotMap[groupID];
   if (!(typeof botConfig === 'object' && botConfig)) {
     console.log('New message received, but no bot configured for Group ID ' + groupID);
-  } else {
-    botName = botConfig.botName;
-    msg = request.text;
-    console.log('New message from %s in group \'%s\': %s', request.name, botConfig.groupLocalID, msg);
-    if (typeof msg === 'string') {
-      if (msg === botName) {
-        msg = botName + ' help';
-      }
-      if (msg.substring(0, botName.length + 1) === botName + ' ') {
-        msg = msg.substring(botName.length + 1);
-        this.processCommand(botConfig.groupLocalID, request.name, msg, function (response) {
-          if (response !== null) {
-            this.postMessageWithBotID(botConfig.botID, response);
-          }
-        }.bind(this));
-      }
+    return;
+  }
+
+  botName = botConfig.botName;
+  msg = request.text;
+  console.log('New message from %s in group \'%s\': %s', request.name, botConfig.groupLocalID, msg);
+
+  if (typeof msg === 'string') {
+    if (msg === botName) {
+      msg = botName + ' help';
+    }
+    if (msg.substring(0, botName.length + 1) === botName + ' ') {
+      msg = msg.substring(botName.length + 1);
+      this.processCommand(botConfig.groupLocalID, request.name, msg, function (response) {
+        if (response !== null) {
+          this.postMessageWithBotID(botConfig.botID, response);
+        }
+      }.bind(this));
     }
   }
 };
