@@ -26,6 +26,7 @@ require("fs").readdirSync(normalizedPath).forEach(function (file) {
 bot.respond = function (request) {
   var botConfig, msg, botName, groupID;
   if (!(typeof request === 'object' && request)) {
+    console.log('Invalid bot request:', request);
     return;
   }
 
