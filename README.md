@@ -46,13 +46,9 @@ Configuring
 Running
 -------
 1. Install [node.js](https://nodejs.org/). Node's package manager ([npm](https://www.npmjs.org/)) comes bundled.
-2. Install dependencies and set up the project.  
+2. Execute the run script. Please read the contents of ([`run_server.sh`](run_server.sh)) carefully before executing it.  
 ```sh
-$ npm install
-```
-3. Run the server. The default port used is 5000. If you want to use another port, set the `PORT` environment variable to the desired port number.  
-```sh
-$ node index.js
+$ ./run_server.sh
 ```
 
 Adding your own commands
@@ -84,4 +80,4 @@ Look at existing modules in the [`commands/`](src/commands/) directory for examp
 
 License
 -------
-MIT Licensed. See [LICENSE.md](LICENSE.md)
+MIT Licensed. See [LICENSE.md](LICENSE.md).
