@@ -19,8 +19,8 @@ Configuring
 
 2. [Find your Bot ID](https://github.com/groupme/bot-tutorial-nodejs#find-your-bot-id) and save for later. Also save the group ID and optionally the group name.
 
-3. Copy `config_template.js` to `config.js`. Make sure to keep `config.js` private/hidden, as it will hold secret data and should not be publicly visible.
-  If you are using Git, it is already added to `.gitignore`. DO NOT ADD CONFIGURATION DATA TO `config_template.js`, which is meant to be in source control.
+3. Copy [`config_template.js`](src/config_template.js) to `config.js`. Make sure to keep `config.js` private/hidden, as it will hold secret data and should not be publicly visible.
+  If you are using Git, it is already added to [`.gitignore`](.gitignore). DO NOT ADD CONFIGURATION DATA TO `config_template.js`, which is meant to be in source control.
   It should only be used to create `config.js`.
 
 4. Open `config.js` and edit the `config.bots` array. For every group you have a bot for, add the following to the array:  
@@ -57,12 +57,18 @@ $ node index.js
 
 Adding your own commands
 ------------------------
-Commands are automatically picked up from the `commands/` directory. To add your own command, create a JS module and place it in the directory.
+Commands are automatically picked up from the [`commands/`](src/commands/) directory. To add your own command, create a JS module and place it in the directory.
 The module should export a single function which accepts as its parameter a command registration callback. This callback should be called with the
 command name, its description and the command function to register the command. The command function is called when the bot receives a message with
-the given command. The command function will be called with four parameters - the group's local ID, the sending user's display name, an array of
-words in the message following the command (used as command arguments), and a callback function, which should be called with the response.
-The user's display name may be empty - such as when a command is triggered as a scheduled message, not from a message sent by a user.
+the given command.
+
+The command function will be called with four parameters:
+* the group's local ID
+* the sending user's display name
+* an array of words in the message following the command (used as command arguments)
+* a callback function, which should be called with the response
+
+The user's display name may be empty - such as when a command is triggered as a scheduled message and not from a message sent by a user.
 A template for a command module is:
 ```js
 module.exports = function (registerCommand) {
@@ -76,8 +82,8 @@ module.exports = function (registerCommand) {
   );
 };
 ```
-Look at existing modules in the `commands/` directory for examples.
+Look at existing modules in the [`commands/`](src/commands/) directory for examples.
 
-Licence
+License
 -------
-Currently &copy; 2014, Neelabh Gupta. An open source licence coming soon.
+MIT Licensed. See [LICENSE.md](LICENSE.md)
