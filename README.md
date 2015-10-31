@@ -46,10 +46,13 @@ Configuring
 Running
 -------
 1. Install [node.js](https://nodejs.org/). Node's package manager ([npm](https://www.npmjs.org/)) comes bundled.
-2. Execute the run script. Please read the contents of ([`run_server.sh`](run_server.sh)) carefully before executing it.  
-```sh
-$ ./run_server.sh
-```
+2. The file [`run_server.sh`](run_server.sh) is a simple [shell script](https://en.wikipedia.org/wiki/Shell_script) which sets up the project directory and runs the server.
+  Make sure to read its contents carefully before executing it. You might also want to edit it to suit your needs. Once ready,
+  execute the run script (it must be run from the project's root directory):  
+  ```sh
+  $ cd <path/to/groupme-bot/>
+  $ ./run_server.sh
+  ```
 
 Adding your own commands
 ------------------------
