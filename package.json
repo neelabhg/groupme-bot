@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "director": "",
+    "notevil": "^1.0.0",
     "weather": "^0.1.0"
   },
   "engines": {
