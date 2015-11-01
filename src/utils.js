@@ -6,8 +6,7 @@ var utils = {};
 // http://stackoverflow.com/a/9577651 (HTTP GET Request in Node.js Express)
 utils.getHttp = function(options, onResult, onError) {
   var protocol = options.port == 443 ? https : http;
-  var req = protocol.request(options, function(res)
-  {
+  var req = protocol.request(options, function(res) {
     var output = '';
     //console.log(options.host + ':' + res.statusCode);
     res.setEncoding('utf8');
